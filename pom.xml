@@ -12,6 +12,7 @@
         <groupId>me.flungo</groupId>
         <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath></relativePath>
     </parent>
 
     <description>Maven parent for projects by Fabrizio Lungo. Contains common plugin configurations and dependency
