@@ -1,211 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <name>flungo's Maven Parent</name>
+  <name>flungo's Maven Parent</name>
 
-    <artifactId>flungo-parent</artifactId>
+  <artifactId>flungo-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>me.flungo</groupId>
+    <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <relativePath></relativePath>
+  </parent>
 
-    <parent>
-        <groupId>me.flungo</groupId>
-        <artifactId>parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath></relativePath>
-    </parent>
+  <description>Maven parent for projects by Fabrizio Lungo. Contains common plugin configurations
+    and dependency versions.</description>
 
-    <description>Maven parent for projects by Fabrizio Lungo. Contains common plugin configurations and dependency
-        versions.</description>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
+  <developers>
+    <developer>
+      <id>flungo</id>
+      <name>Fabrizio Lungo</name>
+      <email>maven@flungo.me</email>
+      <url>https://flungo.me</url>
+      <timezone>Europe/London</timezone>
+      <properties>
+        <picUrl>https://www.gravatar.com/avatar/fa6982976d8d2304593d56e6ca7c9bda</picUrl>
+      </properties>
+    </developer>
+  </developers>
 
-    <developers>
-        <developer>
-            <id>flungo</id>
-            <name>Fabrizio Lungo</name>
-            <email>maven@flungo.me</email>
-            <url>https://flungo.me</url>
-            <timezone>Europe/London</timezone>
-            <properties>
-                <picUrl>https://www.gravatar.com/avatar/fa6982976d8d2304593d56e6ca7c9bda</picUrl>
-            </properties>
-        </developer>
-    </developers>
+  <scm>
+    <connection>scm:git:git://gitlab.com/flungo-maven/flungo-parent.git</connection>
+    <developerConnection>scm:git:ssh://git@gitlab.com:flungo-maven/flungo-parent.git</developerConnection>
+    <url>https://gitlab.com/flungo-maven/flungo-parent/tree/master</url>
+  </scm>
 
-    <scm>
-        <connection>scm:git:git://gitlab.com/flungo-maven/flungo-parent.git</connection>
-        <developerConnection>scm:git:ssh://git@gitlab.com:flungo-maven/flungo-parent.git</developerConnection>
-        <url>https://gitlab.com/flungo-maven/flungo-parent/tree/master</url>
-    </scm>
+  <properties>
+    <!-- Dependency versions -->
+    <junit.version>4.12</junit.version>
+    <org.hamcrest.version>1.3</org.hamcrest.version>
 
-    <properties>
-        <!-- Dependency versions -->
-        <junit.version>4.12</junit.version>
-        <org.hamcrest.version>1.3</org.hamcrest.version>
+    <!-- NetBeans hints -->
+    <netbeans.hint.license>mit</netbeans.hint.license>
+  </properties>
 
-        <!-- NetBeans hints -->
-        <netbeans.hint.license>mit</netbeans.hint.license>
-    </properties>
+  <!-- Set the versions of dependencies that should be used -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- Testing dependencies -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-core</artifactId>
+        <version>${org.hamcrest.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-    <!-- Set the versions of dependencies that should be used -->
-    <dependencyManagement>
-        <dependencies>
-            <!-- Testing dependencies -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-core</artifactId>
-                <version>${org.hamcrest.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+  <!-- Profiles for specific types of projects -->
+  <profiles>
+    <profile>
+      <id>java</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>pom.java.profile</exists>
+        </file>
+      </activation>
 
-    <!-- Profiles for specific types of projects -->
-    <profiles>
-        <profile>
-            <id>java</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <file>
-                    <exists>pom.java.profile</exists>
-                </file>
-            </activation>
+      <properties>
+        <!-- Java compiler options -->
+        <!-- Use Java 1.7 as the default version -->
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+      </properties>
 
-            <properties>
-                <!-- Java compiler options -->
-                <!-- Use Java 1.7 as the default version -->
-                <maven.compiler.source>1.7</maven.compiler.source>
-                <maven.compiler.target>1.7</maven.compiler.target>
-            </properties>
+      <build>
+        <plugins>
+          <!-- Documentation plugins -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <!-- Generate javadoc jars at verify phase to validate javadoc -->
+              <execution>
+                <id>attach-javadocs</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>jar</goal>
+                  <goal>test-jar</goal>
+                  <goal>aggregate-jar</goal>
+                  <goal>test-aggregate-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- JaCoCo coverage plugin -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>jacoco-prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>jacoco-prepare-agent-integration</id>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>jacoco-report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>jacoco-integration</id>
+                <goals>
+                  <goal>report-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>jacoco-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <rules />
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
 
-            <build>
-                <plugins>
-                    <!-- Documentation plugins -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <!-- Generate javadoc jars at verify phase to validate javadoc -->
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                    <goal>test-jar</goal>
-                                    <goal>aggregate-jar</goal>
-                                    <goal>test-aggregate-jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- JaCoCo coverage plugin -->
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>jacoco-prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>jacoco-prepare-agent-integration</id>
-                                <goals>
-                                    <goal>prepare-agent-integration</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>jacoco-report</id>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>jacoco-integration</id>
-                                <goals>
-                                    <goal>report-integration</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>jacoco-check</id>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                                <configuration>
-                                    <rules />
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-
-            <reporting>
-                <plugins>
-                    <!-- Surefire testing report -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-report-plugin</artifactId>
-                        <version>${plugin.maven-surefire.version}</version>
-                    </plugin>
-                    <!-- Java Cross Reference Reports -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jxr-plugin</artifactId>
-                        <version>${plugin.maven-jxr.version}</version>
-                    </plugin>
-                    <!-- JavaDoc Report -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${plugin.maven-javadoc.version}</version>
-                    </plugin>
-                    <!-- Checkstyle Report -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>${plugin.maven-checkstyle.version}</version>
-                        <configuration>
-                            <configLocation>google_checks.xml</configLocation>
-                        </configuration>
-                    </plugin>
-                    <!-- Programming Mistake Detector -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>${plugin.maven-pmd.version}</version>
-                    </plugin>
-                    <!-- FindBugs Report -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>${plugin.mojo-findbugs.version}</version>
-                    </plugin>
-                    <!-- Tag List Report -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>taglist-maven-plugin</artifactId>
-                        <version>${plugin.mojo-taglist.version}</version>
-                    </plugin>
-                    <!-- JaCoCo Coverage Report -->
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${plugin.jacoco.version}</version>
-                    </plugin>
-                </plugins>
-            </reporting>
-        </profile>
-    </profiles>
+      <reporting>
+        <plugins>
+          <!-- Surefire testing report -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+            <version>${plugin.maven-surefire.version}</version>
+          </plugin>
+          <!-- Java Cross Reference Reports -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jxr-plugin</artifactId>
+            <version>${plugin.maven-jxr.version}</version>
+          </plugin>
+          <!-- JavaDoc Report -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${plugin.maven-javadoc.version}</version>
+          </plugin>
+          <!-- Checkstyle Report -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${plugin.maven-checkstyle.version}</version>
+            <configuration>
+              <configLocation>google_checks.xml</configLocation>
+            </configuration>
+          </plugin>
+          <!-- Programming Mistake Detector -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>${plugin.maven-pmd.version}</version>
+          </plugin>
+          <!-- FindBugs Report -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>${plugin.mojo-findbugs.version}</version>
+          </plugin>
+          <!-- Tag List Report -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>taglist-maven-plugin</artifactId>
+            <version>${plugin.mojo-taglist.version}</version>
+          </plugin>
+          <!-- JaCoCo Coverage Report -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${plugin.jacoco.version}</version>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
+  </profiles>
 </project>
