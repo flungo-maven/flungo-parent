@@ -127,6 +127,7 @@
 
   <!-- Profiles for specific types of projects -->
   <profiles>
+    <!-- Profile for projects which are compiled from Java source -->
     <profile>
       <id>java</id>
       <activation>
@@ -261,6 +262,82 @@
           </plugin>
         </plugins>
       </reporting>
+    </profile>
+    <!-- Profile for projects which  -->
+    <profile>
+      <id>executable-jar</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>pom.executable-jar.profile</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Check that the maven.jar.manifest.mainClass property is set -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>enforce-mainClass-defined</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <requireProperty>
+                      <property>maven.jar.manifest.mainClass</property>
+                      <message>maven.jar.manifest.mainClass must be set to build an executable jar</message>
+                    </requireProperty>
+                  </rules>
+                  <fail>true</fail>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Add the mainClass to the manifest when building the jar -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addClasspath>true</addClasspath>
+                  <mainClass>${maven.jar.manifest.mainClass}</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- Profile for projects that require a shaded output -->
+    <profile>
+      <id>shading</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>pom.shading.profile</exists>
+        </file>
+      </activation>
+      <build>
+        <!-- Enable the shade plugin at the package phase -->
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>shade</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
